@@ -19,10 +19,6 @@ export class TaskDto {
   @IsNotEmpty()
   @IsString()
   description: string;
-
-  @IsNotEmpty()
-  @IsEnum(TaskStatus)
-  status: TaskStatus;
 }
 
 export class UpdateTaskStatusDto {
