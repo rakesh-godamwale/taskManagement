@@ -11,8 +11,13 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/auth/entity/user.entity';
+import { GetUser } from 'src/auth/get-user.decorator';
 import { Repository } from 'typeorm';
 import { TaskStatus } from './constant';
 import { TaskFilterDto } from './dto/task-filter.dto';
@@ -20,6 +25,8 @@ import { TaskDto, UpdateTaskStatusDto } from './dto/task.dto';
 import { Task } from './entity/task.entity';
 import { TaskService } from './task.service';
 
+@ApiTags('Task')
+@UseGuards(AuthGuard())
 @Controller('task')
 export class TaskController {
   constructor(
@@ -40,16 +47,20 @@ export class TaskController {
   }
 
   @Post()
-  async createTask(@Body() taskDto: TaskDto): Promise<Task> {
-    return await this.taskService.createTask(taskDto);
+  async createTask(
+    @Body() taskDto: TaskDto,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return await this.taskService.createTask(taskDto, user);
   }
 
   @Put('/:id')
   async updateTask(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() taskDto: TaskDto,
+    @GetUser() user: User,
   ): Promise<Task> {
-    return await this.taskService.createTask(taskDto, id);
+    return await this.taskService.createTask(taskDto, user, id);
   }
   @Delete('/:id')
   async deleteTask(

@@ -1,3 +1,4 @@
+import { User } from 'src/auth/entity/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { TaskStatus } from './constant';
 import { TaskFilterDto } from './dto/task-filter.dto';
@@ -22,13 +23,14 @@ export class TaskRepository extends Repository<Task> {
     return tasks;
   }
 
-  async createTask(taskDto: TaskDto): Promise<Task> {
+  async createTask(taskDto: TaskDto, user: User): Promise<Task> {
     const { title, description } = taskDto;
 
     const task = this.create({
       title,
       description,
       status: TaskStatus.OPEN,
+      user,
     });
     await this.save(task);
     return task;
