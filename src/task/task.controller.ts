@@ -35,15 +35,19 @@ export class TaskController {
   ) {}
 
   @Get()
-  async getAllTask(@Query() taskFilterDto?: TaskFilterDto): Promise<Task[]> {
-    return this.taskService.getTasks(taskFilterDto);
+  async getAllTask(
+    @Query() taskFilterDto: TaskFilterDto,
+    @GetUser() user: User,
+  ): Promise<Task[]> {
+    return this.taskService.getTasks(taskFilterDto, user);
   }
 
   @Get('/:id')
   async getTaskById(
     @Param('id', new ParseUUIDPipe()) id: string,
+    @GetUser() user: User,
   ): Promise<Task> {
-    return await this.taskService.getTaskById(id);
+    return await this.taskService.getTaskById(id, user);
   }
 
   @Post()
@@ -73,8 +77,9 @@ export class TaskController {
   async updateTaskStatus(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+    @GetUser() user: User,
   ): Promise<Task> {
     const { status } = updateTaskStatusDto;
-    return await this.taskService.updateTaskStatus(id, status);
+    return await this.taskService.updateTaskStatus(id, status, user);
   }
 }

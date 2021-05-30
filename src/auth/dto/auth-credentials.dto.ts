@@ -9,7 +9,7 @@ import {
 export class AuthCredentialsDto {
   @IsNotEmpty()
   @IsString()
-  @MinLength(8)
+  @MinLength(5)
   @MaxLength(20)
   username: string;
 
