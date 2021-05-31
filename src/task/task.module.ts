@@ -9,9 +9,7 @@ import { TaskService } from './task.service';
 
 @Module({
   imports: [
-    MulterModule.register({
-      dest: './files',
-    }),
+    MulterModule.register({}),
     TypeOrmModule.forFeature([TaskRepository]),
     AuthModule,
   ],

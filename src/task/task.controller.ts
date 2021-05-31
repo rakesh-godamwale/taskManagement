@@ -87,6 +87,7 @@ export class TaskController {
   @Post('file')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file) {
+    console.log(file.buffer.toString());
     return file;
   }
 }
