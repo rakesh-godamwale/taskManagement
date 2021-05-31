@@ -11,15 +11,16 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entity/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { Repository } from 'typeorm';
-import { TaskStatus } from './constant';
 import { TaskFilterDto } from './dto/task-filter.dto';
 import { TaskDto, UpdateTaskStatusDto } from './dto/task.dto';
 import { Task } from './entity/task.entity';
@@ -81,5 +82,11 @@ export class TaskController {
   ): Promise<Task> {
     const { status } = updateTaskStatusDto;
     return await this.taskService.updateTaskStatus(id, status, user);
+  }
+
+  @Post('file')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file) {
+    return file;
   }
 }
