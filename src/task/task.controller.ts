@@ -11,6 +11,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -86,8 +87,8 @@ export class TaskController {
 
   @Post('file')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file) {
-    console.log(file.buffer.toString());
-    return file;
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    console.log(file);
+    return this.taskService.uploadCsv(file);
   }
 }

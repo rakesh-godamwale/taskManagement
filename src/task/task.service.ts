@@ -46,4 +46,23 @@ export class TaskService {
     await this.taskRepository.save(task);
     return task;
   }
+
+  async uploadCsv(file): Promise<void> {
+    const fileContent = file.buffer.toString();
+    var totalRow = fileContent.split('\r\n');
+
+    const result = totalRow.map((row) => {
+      const rowData = row.split(',');
+      return rowData;
+    });
+    const responseData = result.map((row) => {
+      return {
+        name: row[0],
+        age: row[1],
+        height: row[2],
+      };
+    });
+
+    console.log(responseData);
+  }
 }
