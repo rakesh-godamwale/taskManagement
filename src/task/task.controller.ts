@@ -11,15 +11,17 @@ import {
   Post,
   Put,
   Query,
+  Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entity/user.entity';
 import { GetUser } from 'src/auth/get-user.decorator';
-import { Repository } from 'typeorm';
-import { TaskStatus } from './constant';
 import { TaskFilterDto } from './dto/task-filter.dto';
 import { TaskDto, UpdateTaskStatusDto } from './dto/task.dto';
 import { Task } from './entity/task.entity';
@@ -33,6 +35,12 @@ export class TaskController {
     @Inject(TaskService)
     public taskService: TaskService,
   ) {}
+  @Post('/testing')
+  async testing(@Body('name') name: string, @Body('age') age?: string) {
+    const arr = [name, age];
+    const joined = arr.join('-');
+    console.log(joined);
+  }
 
   @Get()
   async getAllTask(
@@ -81,5 +89,12 @@ export class TaskController {
   ): Promise<Task> {
     const { status } = updateTaskStatusDto;
     return await this.taskService.updateTaskStatus(id, status, user);
+  }
+
+  @Post('file')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req) {
+    console.log(file);
+    return this.taskService.uploadCsv(file);
   }
 }

@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import multer from 'multer';
 import { AuthModule } from 'src/auth/auth.module';
 import { Task } from './entity/task.entity';
 import { TaskController } from './task.controller';

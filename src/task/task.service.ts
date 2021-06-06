@@ -8,6 +8,7 @@ import { TaskDto } from './dto/task.dto';
 import { Task } from './entity/task.entity';
 import { TaskRepository } from './task.repository';
 
+console.log(process.env);
 @Injectable()
 export class TaskService {
   constructor(
@@ -45,5 +46,30 @@ export class TaskService {
     task.status = status;
     await this.taskRepository.save(task);
     return task;
+  }
+
+  async uploadCsv(file): Promise<void> {
+    const fileContent = file.buffer.toString();
+    var totalRow = fileContent.split('\r\n');
+
+    const result = totalRow.map((row) => {
+      const rowData = row.split(',');
+      return rowData;
+    });
+    const responseData = result.map((row) => {
+      if (row.length !== 3)
+        return {
+          name: '',
+          age: '',
+          height: '',
+        };
+      return {
+        name: row[0] ? row[0] : '',
+        age: row[1] ? row[1] : '',
+        height: row[2],
+      };
+    });
+
+    console.log(responseData);
   }
 }
