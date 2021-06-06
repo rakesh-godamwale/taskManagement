@@ -23,6 +23,7 @@ async function bootstrap() {
   setupSwagger(app);
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  await app.listen(3000);
+  const port = 5000;
+  await app.listen(port);
 }
 bootstrap();

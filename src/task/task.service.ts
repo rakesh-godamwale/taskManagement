@@ -8,6 +8,7 @@ import { TaskDto } from './dto/task.dto';
 import { Task } from './entity/task.entity';
 import { TaskRepository } from './task.repository';
 
+console.log(process.env);
 @Injectable()
 export class TaskService {
   constructor(
