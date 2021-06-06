@@ -35,6 +35,12 @@ export class TaskController {
     @Inject(TaskService)
     public taskService: TaskService,
   ) {}
+  @Post('/testing')
+  async testing(@Body('name') name: string, @Body('age') age?: string) {
+    const arr = [name, age];
+    const joined = arr.join('-');
+    console.log(joined);
+  }
 
   @Get()
   async getAllTask(

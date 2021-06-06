@@ -56,9 +56,15 @@ export class TaskService {
       return rowData;
     });
     const responseData = result.map((row) => {
+      if (row.length !== 3)
+        return {
+          name: '',
+          age: '',
+          height: '',
+        };
       return {
-        name: row[0],
-        age: row[1],
+        name: row[0] ? row[0] : '',
+        age: row[1] ? row[1] : '',
         height: row[2],
       };
     });
