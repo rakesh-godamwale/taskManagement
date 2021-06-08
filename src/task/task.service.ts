@@ -8,7 +8,6 @@ import { TaskDto } from './dto/task.dto';
 import { Task } from './entity/task.entity';
 import { TaskRepository } from './task.repository';
 
-console.log(process.env);
 @Injectable()
 export class TaskService {
   constructor(
@@ -69,7 +68,15 @@ export class TaskService {
         height: row[2],
       };
     });
-
     console.log(responseData);
+
+    let query = this.taskRepository
+      .createQueryBuilder()
+      .insert()
+      .into('task', ['title', 'description', 'statsu'])
+      .values(responseData)
+      .execute();
+
+    console.log(query);
   }
 }
