@@ -6,9 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { configValidationSchema } from './config.schema';
+import { CSVModule } from './CSV/csv.module';
 import { TaskModule } from './task/task.module';
-
-// console.log(process.env.stage);
 
 @Module({
   imports: [
@@ -34,6 +33,7 @@ import { TaskModule } from './task/task.module';
     }),
     AuthModule,
     TaskModule,
+    CSVModule,
   ],
   controllers: [AppController],
   providers: [AppService],
