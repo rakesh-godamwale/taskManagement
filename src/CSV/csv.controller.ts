@@ -4,12 +4,14 @@ import {
   Get,
   Inject,
   Post,
+  Req,
   UploadedFile,
   UseInterceptors,
   ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+import multer from 'multer';
 import { CSVService } from './csv.service';
 import { StorageLocationDto } from './dto/storage-location.dto';
 import { StorageLocation } from './entity/storage-location.entity';
@@ -36,8 +38,10 @@ export class CSVController {
 
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadCSV(@UploadedFile() file): Promise<void> {
-    console.log(file);
+  async uploadCSV(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req,
+  ): Promise<void> {
     return this.csvService.uploadCSV(file);
   }
 }

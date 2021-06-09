@@ -1,5 +1,3 @@
-name,zone,rack,layer,bin,code
-w1,z1,r1,l1,b1,z1-r1-l1-v1
-w2,z1,r1,l1,b2,z1-r1-l1-v1
-w3,z3,r1,l1,b3,z1-r1-l1-v2
-w4,z4,r1,l1,b4,z1-r1-l1-v2
+name,zoneId,rackId,layerId,binId,code
+w35,z2,r1,l1,b1,z1-r1-l1-v1
+w36,z2,r1,l1,b1,z1-r1-l1-v2
