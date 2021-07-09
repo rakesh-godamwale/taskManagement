@@ -4,6 +4,19 @@ import { Repository } from 'typeorm';
 import { StorageLocationDto } from './dto/storage-location.dto';
 import { StorageLocation } from './entity/storage-location.entity';
 const csv = require('csvtojson');
+// const { Storage } = require('@google-cloud/storage');
+// const path = require('path');
+
+// const gc = new Storage({
+//   keyFilename: path.join(
+//     __dirname,
+//     '../../onyx-shoreline-288310-49194cbb1e72.json',
+//   ),
+//   projectId: 'onyx-shoreline-288310',
+// });
+
+// gc.getBuckets().then((x) => console.log(x));
+// const fileUploadGCP = gc.bucket('task-management');
 
 @Injectable()
 export class CSVService {
@@ -11,6 +24,8 @@ export class CSVService {
     @InjectRepository(StorageLocation)
     private storageLocation: Repository<StorageLocation>,
   ) {}
+
+  async uploadOnGCPBucket(file) {}
 
   async getAllLocation(): Promise<StorageLocation[]> {
     return await this.storageLocation.find();
@@ -32,6 +47,10 @@ export class CSVService {
   }
 
   async uploadCSV(file: any): Promise<void> {
+    // await fileUploadGCP.file(__dirname, '../../sample.csv').createReadStream({
+    //   resumable: false,
+    //   gzip: true,
+    // });
     let locations: any[];
 
     csv({
@@ -44,19 +63,19 @@ export class CSVService {
         locations = csvRow;
       });
 
-    const storageLocations = locations.map((storageLocationDto) => {
-      const storageLocationDao = new StorageLocation();
-      storageLocationDao.name = storageLocationDto.name;
-      storageLocationDao.zoneId = storageLocationDto.zoneId;
-      storageLocationDao.rackId = storageLocationDto.rackId;
-      storageLocationDao.layerId = storageLocationDto.layerId;
-      storageLocationDao.binId = storageLocationDto.binId;
-      storageLocationDao.code = storageLocationDto.code;
+    // const storageLocations = locations.map((storageLocationDto) => {
+    //   const storageLocationDao = new StorageLocation();
+    //   storageLocationDao.name = storageLocationDto.name;
+    //   storageLocationDao.zoneId = storageLocationDto.zoneId;
+    //   storageLocationDao.rackId = storageLocationDto.rackId;
+    //   storageLocationDao.layerId = storageLocationDto.layerId;
+    //   storageLocationDao.binId = storageLocationDto.binId;
+    //   storageLocationDao.code = storageLocationDto.code;
 
-      return storageLocationDao;
-    });
+    //   return storageLocationDao;
+    // });
 
-    console.log(storageLocations);
+    // console.log(storageLocations);
     //using save()
     // await this.storageLocation.save(csvRow);
 

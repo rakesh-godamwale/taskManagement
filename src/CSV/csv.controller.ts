@@ -1,4 +1,8 @@
 import {
+  GCloudStorageFileInterceptor,
+  UploadedFileMetadata,
+} from '@aginix/nestjs-gcloud-storage';
+import {
   Body,
   Controller,
   Get,
@@ -43,5 +47,11 @@ export class CSVController {
     @Req() req,
   ): Promise<void> {
     return this.csvService.uploadCSV(file);
+  }
+
+  @Post('/gcs/upload')
+  @UseInterceptors(GCloudStorageFileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: UploadedFileMetadata): Promise<void> {
+    console.log(file.storageUrl);
   }
 }
