@@ -8,6 +8,7 @@ import {
   Get,
   Inject,
   Post,
+  Put,
   Req,
   UploadedFile,
   UseInterceptors,
@@ -54,4 +55,7 @@ export class CSVController {
   async uploadFile(@UploadedFile() file: UploadedFileMetadata): Promise<void> {
     console.log(file.storageUrl);
   }
+
+  @Put('/test')
+  async testFuntction();
 }
